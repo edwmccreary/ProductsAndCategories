@@ -1,0 +1,33 @@
+@model Product
+
+<div class="text-center">
+    <h1>@Model.Name</h1>
+    <div class="col-6">
+        <ul>
+            @{
+                foreach(Association a in Model.Categories)
+                {
+                    <li>@a.Category.Name</li>
+                }
+            }
+        </ul>
+    </div>
+    <div class="col-6">
+        <form action="/addToCategory" method="post">
+            <label>Categories</label>
+            <select name="CategoryId" class="form-control">
+                @{
+                    foreach(Category c in ViewBag.AllCategories)
+                    {
+                        if(!Model.Categories.Any(a => a.CategoryId == c.CategoryId))
+                        {
+                            <option value="@c.CategoryId">@c.Name</option>
+                        }
+                    }
+                }
+            </select>
+            <input type="hidden" name="ProductId" value="@Model.ProductId">
+            <input type="submit" value="Add Category" class="btn btn-primary">
+        </form>
+    </div>
+</div>
